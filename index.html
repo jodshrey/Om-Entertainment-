@@ -1,0 +1,1419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Om Entertainment | Production House</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'display': ['Space Grotesk', 'sans-serif'],
+                        'body': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'om-black': '#0a0a0a',
+                        'om-dark': '#111111',
+                        'om-gray': '#1a1a1a',
+                        'om-accent': '#c9a96e',
+                        'om-white': '#fafafa',
+                        'om-success': '#22c55e',
+                    },
+                    animation: {
+                        'fade-up': 'fadeUp 0.8s ease-out forwards',
+                        'slide-in': 'slideIn 1s ease-out forwards',
+                        'scale-in': 'scaleIn 0.6s ease-out forwards',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        fadeUp: {
+                            '0%': { opacity: '0', transform: 'translateY(30px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        slideIn: {
+                            '0%': { transform: 'translateX(-100%)' },
+                            '100%': { transform: 'translateX(0)' },
+                        },
+                        scaleIn: {
+                            '0%': { transform: 'scale(0.9)', opacity: '0' },
+                            '100%': { transform: 'scale(1)', opacity: '1' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            background-color: #0a0a0a;
+            color: #fafafa;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        .grain-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+        
+        .hero-text {
+            font-size: clamp(2.5rem, 12vw, 8rem);
+            line-height: 0.9;
+            letter-spacing: -0.02em;
+        }
+        
+        .reveal-text {
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+        }
+        
+        .magnetic-btn {
+            transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        
+        .work-card {
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        
+        .work-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .work-card:hover .work-overlay {
+            opacity: 1;
+        }
+        
+        .work-card:hover img {
+            transform: scale(1.05);
+        }
+        
+        .line-reveal {
+            width: 0;
+            transition: width 1.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        
+        .line-reveal.active {
+            width: 100%;
+        }
+        
+        .custom-cursor {
+            width: 20px;
+            height: 20px;
+            border: 1px solid #c9a96e;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transition: transform 0.2s, width 0.2s, height 0.2s;
+            transform: translate(-50%, -50%);
+            mix-blend-mode: difference;
+        }
+        
+        .custom-cursor.hover {
+            width: 60px;
+            height: 60px;
+            background: rgba(201, 169, 110, 0.1);
+        }
+        
+        .nav-link {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: #c9a96e;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            transform: translateX(0);
+        }
+        
+        .service-item {
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.4s ease;
+        }
+        
+        .service-item:hover {
+            background: rgba(201, 169, 110, 0.05);
+            padding-left: 20px;
+        }
+        
+        .service-item:hover .service-icon {
+            transform: rotate(45deg);
+        }
+        
+        .service-icon {
+            transition: transform 0.4s ease;
+        }
+        
+        .scroll-indicator {
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #fafafa 0%, #c9a96e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .noise-bg {
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(201, 169, 110, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(201, 169, 110, 0.03) 0%, transparent 50%);
+        }
+
+        /* Admin Panel Styles */
+        .admin-panel {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            max-width: 500px;
+            height: 100vh;
+            background: #111;
+            z-index: 9999;
+            transition: right 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            overflow-y: auto;
+            border-left: 1px solid rgba(201, 169, 110, 0.2);
+        }
+        
+        @media (max-width: 640px) {
+            .admin-panel {
+                max-width: 100%;
+            }
+        }
+        
+        .admin-panel.open {
+            right: 0;
+        }
+        
+        .admin-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: #c9a96e;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 9998;
+            box-shadow: 0 4px 20px rgba(201, 169, 110, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        @media (max-width: 640px) {
+            .admin-toggle {
+                width: 50px;
+                height: 50px;
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+        
+        .admin-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 30px rgba(201, 169, 110, 0.4);
+        }
+
+        .form-input {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            width: 100%;
+            transition: all 0.3s;
+            font-size: 16px; /* Prevents zoom on iOS */
+            min-height: 44px; /* Minimum touch target */
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #c9a96e;
+            background: rgba(201, 169, 110, 0.05);
+        }
+
+        .whatsapp-btn {
+            background: #25D366;
+            color: white;
+            transition: all 0.3s;
+        }
+        
+        .whatsapp-btn:hover {
+            background: #128C7E;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.3);
+        }
+
+        .client-data-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            transition: all 0.3s;
+        }
+        
+        .client-data-card:hover {
+            border-color: #c9a96e;
+            background: rgba(201, 169, 110, 0.05);
+        }
+
+        .delete-btn {
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        @media (max-width: 768px) {
+            .delete-btn {
+                opacity: 1;
+            }
+        }
+        
+        .client-data-card:hover .delete-btn {
+            opacity: 1;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: #111;
+            border: 1px solid rgba(201, 169, 110, 0.2);
+            border-radius: 16px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: scaleIn 0.3s ease;
+        }
+        
+        @media (max-width: 640px) {
+            .modal-content {
+                margin: 10px;
+                max-height: 95vh;
+                border-radius: 12px;
+            }
+        }
+
+        /* Floating WhatsApp Button */
+        .floating-whatsapp {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: #25D366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 9997;
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.3);
+            transition: all 0.3s ease;
+            animation: pulse-slow 2s infinite;
+        }
+        
+        @media (max-width: 640px) {
+            .floating-whatsapp {
+                width: 50px;
+                height: 50px;
+                bottom: 85px;
+                right: 20px;
+            }
+        }
+        
+        .floating-whatsapp:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 30px rgba(37, 211, 102, 0.5);
+        }
+
+        .category-filter {
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+        
+        .category-filter.active {
+            background: #c9a96e;
+            color: #0a0a0a;
+        }
+        
+        /* Mobile Menu */
+        .mobile-menu-open {
+            overflow: hidden;
+        }
+        
+        /* Touch device optimizations */
+        @media (hover: none) {
+            .work-card:hover {
+                transform: none;
+            }
+            
+            .work-card:active {
+                transform: scale(0.98);
+            }
+            
+            .magnetic-btn {
+                transform: none !important;
+            }
+        }
+        
+        /* Improved mobile typography */
+        @media (max-width: 640px) {
+            .hero-text {
+                font-size: clamp(2rem, 15vw, 4rem);
+            }
+            
+            .text-5xl {
+                font-size: 2.5rem;
+                line-height: 1.1;
+            }
+            
+            .text-6xl {
+                font-size: 3rem;
+                line-height: 1.1;
+            }
+            
+            .text-4xl {
+                font-size: 2rem;
+            }
+        }
+        
+        /* Safe area for notched phones */
+        @supports (padding: max(0px)) {
+            .safe-area-padding {
+                padding-left: max(1.5rem, env(safe-area-inset-left));
+                padding-right: max(1.5rem, env(safe-area-inset-right));
+                padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <div class="grain-overlay"></div>
+    <div class="custom-cursor hidden md:block" id="cursor"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 w-full z-50 px-4 sm:px-6 py-4 sm:py-6 mix-blend-difference transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <a href="#" class="font-display text-xl sm:text-2xl font-bold tracking-tighter text-white">
+                OM<span class="text-om-accent">.</span>
+            </a>
+            
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#work" class="nav-link text-sm uppercase tracking-widest text-white/80 hover:text-white transition-colors">Work</a>
+                <a href="#services" class="nav-link text-sm uppercase tracking-widest text-white/80 hover:text-white transition-colors">Services</a>
+                <a href="#about" class="nav-link text-sm uppercase tracking-widest text-white/80 hover:text-white transition-colors">About</a>
+                <a href="#contact" class="magnetic-btn px-6 py-3 border border-white/20 rounded-full text-sm uppercase tracking-widest hover:bg-white hover:text-black transition-all duration-300">
+                    Contact
+                </a>
+            </div>
+            
+            <button class="md:hidden text-white p-2 touch-manipulation" id="menuBtn" aria-label="Open menu">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="fixed inset-0 bg-om-black z-40 transform translate-x-full transition-transform duration-500 md:hidden" id="mobileMenu">
+        <div class="flex flex-col items-center justify-center h-full gap-8 px-6">
+            <a href="#work" class="text-3xl font-display font-bold mobile-link">Work</a>
+            <a href="#services" class="text-3xl font-display font-bold mobile-link">Services</a>
+            <a href="#about" class="text-3xl font-display font-bold mobile-link">About</a>
+            <a href="#contact" class="text-3xl font-display font-bold mobile-link">Contact</a>
+        </div>
+        <button class="absolute top-4 right-4 text-white p-2" id="closeMenu" aria-label="Close menu">
+            <i data-lucide="x" class="w-8 h-8"></i>
+        </button>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center overflow-hidden noise-bg px-4 sm:px-6">
+        <div class="absolute inset-0 z-0">
+            <div class="absolute inset-0 bg-gradient-to-b from-transparent via-om-black/50 to-om-black"></div>
+        </div>
+        
+        <div class="relative z-10 text-center px-4 max-w-6xl mx-auto pt-20 sm:pt-0">
+            <p class="text-om-accent text-xs sm:text-sm uppercase tracking-[0.2em] sm:tracking-[0.3em] mb-4 sm:mb-6 opacity-0 animate-fade-up" style="animation-delay: 0.2s">
+                Production House & Portfolio Building
+            </p>
+            <h1 class="hero-text font-display font-bold mb-6 sm:mb-8 opacity-0 animate-fade-up" style="animation-delay: 0.4s">
+                <span class="block">OM</span>
+                <span class="block gradient-text">ENTERTAINMENT</span>
+            </h1>
+            <p class="text-white/60 text-base sm:text-lg md:text-xl max-w-2xl mx-auto mb-8 sm:mb-12 font-light px-4 opacity-0 animate-fade-up" style="animation-delay: 0.6s">
+                Crafting visual stories that move audiences. We transform ideas into cinematic experiences and build stunning portfolios for creatives.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center opacity-0 animate-fade-up px-4" style="animation-delay: 0.8s">
+                <a href="#work" class="magnetic-btn w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-om-accent text-om-black font-medium rounded-full hover:bg-white transition-all duration-300 flex items-center justify-center gap-2 text-sm sm:text-base">
+                    View Our Work
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </a>
+                <a href="#contact" class="magnetic-btn w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 border border-white/20 rounded-full hover:bg-white/10 transition-all duration-300 text-sm sm:text-base text-center">
+                    Get in Touch
+                </a>
+            </div>
+        </div>
+
+        <div class="absolute bottom-6 sm:bottom-10 left-1/2 transform -translate-x-1/2 scroll-indicator opacity-0 animate-fade-up hidden sm:block" style="animation-delay: 1s">
+            <div class="w-6 h-10 border-2 border-white/20 rounded-full flex justify-center pt-2">
+                <div class="w-1 h-2 bg-om-accent rounded-full animate-bounce"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Work Section -->
+    <section id="work" class="py-20 sm:py-32 px-4 sm:px-6 relative">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 sm:mb-12 gap-4">
+                <div>
+                    <p class="text-om-accent text-xs sm:text-sm uppercase tracking-[0.2em] sm:tracking-[0.3em] mb-2 sm:mb-4">Portfolio</p>
+                    <h2 class="text-3xl sm:text-5xl md:text-6xl font-display font-bold">Selected<br class="hidden sm:block">Works</h2>
+                </div>
+            </div>
+
+            <!-- Category Filters -->
+            <div class="flex flex-wrap gap-2 sm:gap-3 mb-8 sm:mb-12" id="categoryFilters">
+                <button class="category-filter active px-4 sm:px-6 py-2 rounded-full border border-white/20 text-xs sm:text-sm uppercase tracking-widest hover:border-om-accent" data-filter="all">
+                    All
+                </button>
+                <button class="category-filter px-4 sm:px-6 py-2 rounded-full border border-white/20 text-xs sm:text-sm uppercase tracking-widest hover:border-om-accent" data-filter="film">
+                    Film
+                </button>
+                <button class="category-filter px-4 sm:px-6 py-2 rounded-full border border-white/20 text-xs sm:text-sm uppercase tracking-widest hover:border-om-accent" data-filter="commercial">
+                    Commercial
+                </button>
+                <button class="category-filter px-4 sm:px-6 py-2 rounded-full border border-white/20 text-xs sm:text-sm uppercase tracking-widest hover:border-om-accent" data-filter="music">
+                    Music Video
+                </button>
+                <button class="category-filter px-4 sm:px-6 py-2 rounded-full border border-white/20 text-xs sm:text-sm uppercase tracking-widest hover:border-om-accent" data-filter="portfolio">
+                    Portfolio Build
+                </button>
+            </div>
+
+            <!-- Work Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8" id="workGrid">
+                <!-- Dynamic content will be loaded here -->
+            </div>
+
+            <div class="mt-12 sm:mt-16 text-center">
+                <button id="loadMoreBtn" class="magnetic-btn px-6 sm:px-8 py-3 sm:py-4 border border-white/20 rounded-full hover:bg-white hover:text-black transition-all duration-300 hidden text-sm sm:text-base">
+                    Load More
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section id="services" class="py-20 sm:py-32 px-4 sm:px-6 bg-om-dark">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 sm:gap-20">
+                <div>
+                    <p class="text-om-accent text-xs sm:text-sm uppercase tracking-[0.2em] sm:tracking-[0.3em] mb-2 sm:mb-4">What We Do</p>
+                    <h2 class="text-3xl sm:text-5xl md:text-6xl font-display font-bold mb-6 sm:mb-8">Our<br>Services</h2>
+                    <p class="text-white/60 text-base sm:text-lg leading-relaxed mb-6 sm:mb-8">
+                        From concept to completion, we handle every aspect of production with precision and creativity. Our team brings decades of combined experience in film, television, and digital content.
+                    </p>
+                    <div class="line-reveal h-px bg-om-accent/30 mb-6 sm:mb-8" id="serviceLine"></div>
+                </div>
+
+                <div class="space-y-0">
+                    <div class="service-item py-6 sm:py-8 flex justify-between items-center cursor-pointer group" data-cursor="hover">
+                        <div class="pr-4">
+                            <h3 class="text-lg sm:text-2xl font-display font-bold mb-1 sm:mb-2 group-hover:text-om-accent transition-colors">Film Production</h3>
+                            <p class="text-white/40 text-xs sm:text-sm">Feature films, shorts, and experimental cinema</p>
+                        </div>
+                        <i data-lucide="arrow-up-right" class="service-icon w-5 h-5 sm:w-6 sm:h-6 text-om-accent flex-shrink-0"></i>
+                    </div>
+
+                    <div class="service-item py-6 sm:py-8 flex justify-between items-center cursor-pointer group" data-cursor="hover">
+                        <div class="pr-4">
+                            <h3 class="text-lg sm:text-2xl font-display font-bold mb-1 sm:mb-2 group-hover:text-om-accent transition-colors">Commercials</h3>
+                            <p class="text-white/40 text-xs sm:text-sm">Brand films, TVCs, and digital campaigns</p>
+                        </div>
+                        <i data-lucide="arrow-up-right" class="service-icon w-5 h-5 sm:w-6 sm:h-6 text-om-accent flex-shrink-0"></i>
+                    </div>
+
+                    <div class="service-item py-6 sm:py-8 flex justify-between items-center cursor-pointer group" data-cursor="hover">
+                        <div class="pr-4">
+                            <h3 class="text-lg sm:text-2xl font-display font-bold mb-1 sm:mb-2 group-hover:text-om-accent transition-colors">Music Videos</h3>
+                            <p class="text-white/40 text-xs sm:text-sm">Visual storytelling for artists and labels</p>
+                        </div>
+                        <i data-lucide="arrow-up-right" class="service-icon w-5 h-5 sm:w-6 sm:h-6 text-om-accent flex-shrink-0"></i>
+                    </div>
+
+                    <div class="service-item py-6 sm:py-8 flex justify-between items-center cursor-pointer group" data-cursor="hover">
+                        <div class="pr-4">
+                            <h3 class="text-lg sm:text-2xl font-display font-bold mb-1 sm:mb-2 group-hover:text-om-accent transition-colors">Portfolio Building</h3>
+                            <p class="text-white/40 text-xs sm:text-sm">Professional portfolios for actors, models, and artists</p>
+                        </div>
+                        <i data-lucide="arrow-up-right" class="service-icon w-5 h-5 sm:w-6 sm:h-6 text-om-accent flex-shrink-0"></i>
+                    </div>
+
+                    <div class="service-item py-6 sm:py-8 flex justify-between items-center cursor-pointer group" data-cursor="hover">
+                        <div class="pr-4">
+                            <h3 class="text-lg sm:text-2xl font-display font-bold mb-1 sm:mb-2 group-hover:text-om-accent transition-colors">Post Production</h3>
+                            <p class="text-white/40 text-xs sm:text-sm">Editing, color grading, VFX, and sound design</p>
+                        </div>
+                        <i data-lucide="arrow-up-right" class="service-icon w-5 h-5 sm:w-6 sm:h-6 text-om-accent flex-shrink-0"></i>
+                    </div>
+
+                    <div class="service-item py-6 sm:py-8 flex justify-between items-center cursor-pointer group" data-cursor="hover">
+                        <div class="pr-4">
+                            <h3 class="text-lg sm:text-2xl font-display font-bold mb-1 sm:mb-2 group-hover:text-om-accent transition-colors">Documentary</h3>
+                            <p class="text-white/40 text-xs sm:text-sm">Non-fiction storytelling and interviews</p>
+                        </div>
+                        <i data-lucide="arrow-up-right" class="service-icon w-5 h-5 sm:w-6 sm:h-6 text-om-accent flex-shrink-0"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-20 sm:py-32 px-4 sm:px-6 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-r from-om-accent/5 to-transparent"></div>
+        <div class="max-w-7xl mx-auto relative z-10">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
+                <div class="text-center">
+                    <div class="text-3xl sm:text-5xl md:text-6xl font-display font-bold text-om-accent mb-1 sm:mb-2 counter" data-target="150">0</div>
+                    <div class="text-white/60 text-xs sm:text-sm uppercase tracking-widest">Projects</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl sm:text-5xl md:text-6xl font-display font-bold text-om-accent mb-1 sm:mb-2 counter" data-target="12">0</div>
+                    <div class="text-white/60 text-xs sm:text-sm uppercase tracking-widest">Years</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl sm:text-5xl md:text-6xl font-display font-bold text-om-accent mb-1 sm:mb-2 counter" data-target="40">0</div>
+                    <div class="text-white/60 text-xs sm:text-sm uppercase tracking-widest">Awards</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl sm:text-5xl md:text-6xl font-display font-bold text-om-accent mb-1 sm:mb-2 counter" data-target="80">0</div>
+                    <div class="text-white/60 text-xs sm:text-sm uppercase tracking-widest">Clients</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 sm:py-32 px-4 sm:px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-16 items-center">
+                <div class="relative order-2 lg:order-1">
+                    <div class="aspect-[3/4] rounded-lg overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=800&q=80" 
+                             alt="Studio" 
+                             class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700">
+                    </div>
+                    <div class="absolute -bottom-4 -right-4 sm:-bottom-6 sm:-right-6 w-32 h-32 sm:w-48 sm:h-48 bg-om-accent/10 rounded-lg -z-10"></div>
+                    <div class="absolute -top-4 -left-4 sm:-top-6 sm:-left-6 w-32 h-32 sm:w-48 sm:h-48 border border-om-accent/20 rounded-lg -z-10"></div>
+                </div>
+                
+                <div class="order-1 lg:order-2">
+                    <p class="text-om-accent text-xs sm:text-sm uppercase tracking-[0.2em] sm:tracking-[0.3em] mb-2 sm:mb-4">About Us</p>
+                    <h2 class="text-3xl sm:text-4xl md:text-5xl font-display font-bold mb-6 sm:mb-8">Stories That<br>Resonate</h2>
+                    <div class="space-y-4 sm:space-y-6 text-white/60 text-base sm:text-lg leading-relaxed">
+                        <p>
+                            Om Entertainment was founded with a singular vision: to create content that matters. We believe in the power of visual storytelling to inspire, challenge, and transform.
+                        </p>
+                        <p>
+                            Our team of directors, cinematographers, and producers bring diverse perspectives and uncompromising standards to every project. From intimate documentaries to large-scale commercial productions, we approach each story with the same dedication to excellence.
+                        </p>
+                        <p>
+                            We also specialize in building professional portfolios for actors, models, and artists, helping them showcase their talent to the world with stunning visual presentations.
+                        </p>
+                    </div>
+                    
+                    <div class="mt-8 sm:mt-10 flex gap-3 sm:gap-4">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-om-accent" alt="Team">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-om-accent -ml-2 sm:-ml-4" alt="Team">
+                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-om-accent -ml-2 sm:-ml-4" alt="Team">
+                        <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-dashed border-white/30 -ml-2 sm:-ml-4 flex items-center justify-center text-xs text-white/60">
+                            +12
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 sm:py-32 px-4 sm:px-6 bg-om-dark relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-full lg:w-1/2 h-full bg-gradient-to-l from-om-accent/5 to-transparent"></div>
+        
+        <div class="max-w-7xl mx-auto relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 sm:gap-20">
+                <div>
+                    <p class="text-om-accent text-xs sm:text-sm uppercase tracking-[0.2em] sm:tracking-[0.3em] mb-2 sm:mb-4">Get in Touch</p>
+                    <h2 class="text-3xl sm:text-5xl md:text-6xl font-display font-bold mb-6 sm:mb-8">Let's Create<br>Together</h2>
+                    <p class="text-white/60 text-base sm:text-lg mb-8 sm:mb-12">
+                        Have a project in mind? We'd love to hear about it. Connect with us directly via WhatsApp for instant responses.
+                    </p>
+                    
+                    <div class="space-y-4 sm:space-y-6">
+                        <div class="flex items-center gap-3 sm:gap-4">
+                            <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-om-gray flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="mail" class="w-4 h-4 sm:w-5 sm:h-5 text-om-accent"></i>
+                            </div>
+                            <div class="min-w-0">
+                                <div class="text-white/40 text-xs sm:text-sm">Email</div>
+                                <a href="mailto:hello@omentertainment.com" class="text-white hover:text-om-accent transition-colors text-sm sm:text-base truncate block">hello@omentertainment.com</a>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center gap-3 sm:gap-4">
+                            <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#25D366] flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="message-circle" class="w-4 h-4 sm:w-5 sm:h-5 text-white"></i>
+                            </div>
+                            <div>
+                                <div class="text-white/40 text-xs sm:text-sm">WhatsApp</div>
+                                <span class="text-white text-sm sm:text-base">+91 98765 43210</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center gap-3 sm:gap-4">
+                            <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-om-gray flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="map-pin" class="w-4 h-4 sm:w-5 sm:h-5 text-om-accent"></i>
+                            </div>
+                            <div class="min-w-0">
+                                <div class="text-white/40 text-xs sm:text-sm">Studio</div>
+                                <span class="text-white text-sm sm:text-base truncate block">123 Creative District, Film City</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- WhatsApp CTA -->
+                    <div class="mt-6 sm:mt-8 p-4 sm:p-6 bg-gradient-to-r from-[#25D366]/10 to-transparent rounded-xl border border-[#25D366]/20">
+                        <h4 class="text-base sm:text-lg font-display font-bold mb-2 flex items-center gap-2">
+                            <i data-lucide="message-circle" class="w-4 h-4 sm:w-5 sm:h-5 text-[#25D366]"></i>
+                            Prefer WhatsApp?
+                        </h4>
+                        <p class="text-white/60 text-xs sm:text-sm mb-3 sm:mb-4">Get instant quotes and discuss your project directly.</p>
+                        <button onclick="openWhatsAppModal()" class="whatsapp-btn w-full py-2.5 sm:py-3 rounded-full font-medium flex items-center justify-center gap-2 text-sm sm:text-base">
+                            <i data-lucide="message-circle" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+                            Chat on WhatsApp
+                        </button>
+                    </div>
+                </div>
+
+                <form class="space-y-4 sm:space-y-6" id="contactForm">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                        <div>
+                            <label class="block text-white/40 text-xs sm:text-sm mb-2 uppercase tracking-widest">Name</label>
+                            <input type="text" id="contactName" class="form-input" placeholder="John Doe" required>
+                        </div>
+                        <div>
+                            <label class="block text-white/40 text-xs sm:text-sm mb-2 uppercase tracking-widest">Email</label>
+                            <input type="email" id="contactEmail" class="form-input" placeholder="john@example.com" required>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-white/40 text-xs sm:text-sm mb-2 uppercase tracking-widest">Phone</label>
+                        <input type="tel" id="contactPhone" class="form-input" placeholder="+91 98765 43210" required>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-white/40 text-xs sm:text-sm mb-2 uppercase tracking-widest">Project Type</label>
+                        <select id="contactService" class="form-input" required>
+                            <option value="" class="bg-om-dark">Select a service</option>
+                            <option value="Film Production" class="bg-om-dark">Film Production</option>
+                            <option value="Commercial" class="bg-om-dark">Commercial</option>
+                            <option value="Music Video" class="bg-om-dark">Music Video</option>
+                            <option value="Portfolio Building" class="bg-om-dark">Portfolio Building</option>
+                            <option value="Post Production" class="bg-om-dark">Post Production</option>
+                            <option value="Documentary" class="bg-om-dark">Documentary</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-white/40 text-xs sm:text-sm mb-2 uppercase tracking-widest">Message</label>
+                        <textarea id="contactMessage" rows="4" class="form-input resize-none" placeholder="Tell us about your project..." required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="magnetic-btn w-full sm:w-auto px-8 sm:px-10 py-3 sm:py-4 bg-om-accent text-om-black font-medium rounded-full hover:bg-white transition-all duration-300 flex items-center justify-center gap-2 group text-sm sm:text-base">
+                        Send Message
+                        <i data-lucide="send" class="w-4 h-4 transform group-hover:translate-x-1 transition-transform"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-8 sm:py-12 px-4 sm:px-6 border-t border-white/10">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 sm:gap-6">
+            <div class="font-display text-xl sm:text-2xl font-bold tracking-tighter">
+                OM<span class="text-om-accent">.</span>
+            </div>
+            
+            <div class="flex gap-6 sm:gap-8">
+                <a href="#" class="text-white/40 hover:text-om-accent transition-colors">
+                    <i data-lucide="instagram" class="w-5 h-5"></i>
+                </a>
+                <a href="#" class="text-white/40 hover:text-om-accent transition-colors">
+                    <i data-lucide="twitter" class="w-5 h-5"></i>
+                </a>
+                <a href="#" class="text-white/40 hover:text-om-accent transition-colors">
+                    <i data-lucide="youtube" class="w-5 h-5"></i>
+                </a>
+                <a href="#" class="text-white/40 hover:text-om-accent transition-colors">
+                    <i data-lucide="linkedin" class="w-5 h-5"></i>
+                </a>
+            </div>
+            
+            <div class="text-white/40 text-xs sm:text-sm text-center md:text-right">
+                © 2024 Om Entertainment. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating WhatsApp Button -->
+    <div class="floating-whatsapp" onclick="openWhatsAppModal()" title="Chat on WhatsApp">
+        <i data-lucide="message-circle" class="w-6 h-6 sm:w-7 sm:h-7 text-white"></i>
+    </div>
+
+    <!-- Admin Toggle Button -->
+    <div class="admin-toggle" onclick="toggleAdminPanel()" title="Manage Portfolio & Clients">
+        <i data-lucide="settings" class="w-5 h-5 sm:w-6 sm:h-6 text-om-black"></i>
+    </div>
+
+    <!-- Admin Panel -->
+    <div class="admin-panel" id="adminPanel">
+        <div class="p-4 sm:p-6 border-b border-white/10 flex justify-between items-center sticky top-0 bg-om-dark/95 backdrop-blur-md z-10">
+            <h2 class="text-xl sm:text-2xl font-display font-bold flex items-center gap-2">
+                <i data-lucide="settings" class="w-5 h-5 sm:w-6 sm:h-6 text-om-accent"></i>
+                Admin Panel
+            </h2>
+            <button onclick="toggleAdminPanel()" class="p-2 hover:bg-white/10 rounded-full transition-colors">
+                <i data-lucide="x" class="w-5 h-5 sm:w-6 sm:h-6"></i>
+            </button>
+        </div>
+
+        <div class="p-4 sm:p-6 space-y-6 sm:space-y-8">
+            <!-- Add Work Section -->
+            <div>
+                <h3 class="text-base sm:text-lg font-display font-bold mb-3 sm:mb-4 flex items-center gap-2">
+                    <i data-lucide="plus-circle" class="w-4 h-4 sm:w-5 sm:h-5 text-om-accent"></i>
+                    Add New Work
+                </h3>
+                <form id="addWorkForm" class="space-y-3 sm:space-y-4">
+                    <div>
+                        <label class="block text-white/40 text-xs sm:text-sm mb-1.5 sm:mb-2">Project Title</label>
+                        <input type="text" id="workTitle" class="form-input text-sm" placeholder="e.g., The Silent Echo" required>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-white/40 text-xs sm:text-sm mb-1.5 sm:mb-2">Category</label>
+                        <select id="workCategory" class="form-input text-sm" required>
+                            <option value="film" class="bg-om-dark">Feature Film</option>
+                            <option value="commercial" class="bg-om-dark">Commercial</option>
+                            <option value="music" class="bg-om-dark">Music Video</option>
+                            <option value="portfolio" class="bg-om-dark">Portfolio Build</option>
+                            <option value="documentary" class="bg-om-dark">Documentary</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-white/40 text-xs sm:text-sm mb-1.5 sm:mb-2">Image URL</label>
+                        <input type="url" id="workImage" class="form-input text-sm" placeholder="https://images.unsplash.com/..." required>
+                        <p class="text-white/30 text-xs mt-1">Use Unsplash or direct image links</p>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-white/40 text-xs sm:text-sm mb-1.5 sm:mb-2">Description</label>
+                        <textarea id="workDesc" rows="2" class="form-input resize-none text-sm" placeholder="Brief description..." required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="w-full py-2.5 sm:py-3 bg-om-accent text-om-black font-medium rounded-lg hover:bg-white transition-colors flex items-center justify-center gap-2 text-sm sm:text-base">
+                        <i data-lucide="plus" class="w-4 h-4"></i>
+                        Add to Portfolio
+                    </button>
+                </form>
+            </div>
+
+            <!-- Client Data Section -->
+            <div class="border-t border-white/10 pt-6">
+                <h3 class="text-base sm:text-lg font-display font-bold mb-3 sm:mb-4 flex items-center gap-2">
+                    <i data-lucide="users" class="w-4 h-4 sm:w-5 sm:h-5 text-om-accent"></i>
+                    Client Inquiries
+                    <span id="clientCount" class="ml-auto text-xs sm:text-sm bg-om-accent text-om-black px-2 py-0.5 sm:py-1 rounded-full">0</span>
+                </h3>
+                <div id="clientDataList" class="space-y-3 max-h-64 sm:max-h-96 overflow-y-auto">
+                    <p class="text-white/40 text-xs sm:text-sm text-center py-6 sm:py-8">No client data yet</p>
+                </div>
+                <button onclick="exportClientData()" class="mt-3 sm:mt-4 w-full py-2 border border-om-accent text-om-accent rounded-lg hover:bg-om-accent hover:text-om-black transition-colors text-xs sm:text-sm flex items-center justify-center gap-2">
+                    <i data-lucide="download" class="w-4 h-4"></i>
+                    Export to JSON
+                </button>
+            </div>
+
+            <!-- Current Works List -->
+            <div class="border-t border-white/10 pt-6">
+                <h3 class="text-base sm:text-lg font-display font-bold mb-3 sm:mb-4 flex items-center gap-2">
+                    <i data-lucide="image" class="w-4 h-4 sm:w-5 sm:h-5 text-om-accent"></i>
+                    Manage Works
+                </h3>
+                <div id="manageWorksList" class="space-y-2 sm:space-y-3 max-h-48 sm:max-h-64 overflow-y-auto">
+                    <!-- Dynamic list -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- WhatsApp Modal -->
+    <div class="modal-overlay" id="whatsappModal" onclick="closeWhatsAppModal(event)">
+        <div class="modal-content p-4 sm:p-6" onclick="event.stopPropagation()">
+            <div class="flex justify-between items-center mb-4 sm:mb-6">
+                <h3 class="text-xl sm:text-2xl font-display font-bold flex items-center gap-2">
+                    <i data-lucide="message-circle" class="w-5 h-5 sm:w-6 sm:h-6 text-[#25D366]"></i>
+                    WhatsApp Inquiry
+                </h3>
+                <button onclick="closeWhatsAppModal()" class="p-2 hover:bg-white/10 rounded-full transition-colors">
+                    <i data-lucide="x" class="w-5 h-5 sm:w-6 sm:h-6"></i>
+                </button>
+            </div>
+            
+            <form id="whatsappForm" class="space-y-3 sm:space-y-4">
+                <div>
+                    <label class="block text-white/40 text-xs sm:text-sm mb-1.5 sm:mb-2">Your Name *</label>
+                    <input type="text" id="waName" class="form-input text-sm" placeholder="Enter your full name" required>
+                </div>
+                
+                <div>
+                    <label class="block text-white/40 text-xs sm:text-sm mb-1.5 sm:mb-2">Phone Number *</label>
+                    <input type="tel" id="waPhone" class="form-input text-sm" placeholder="+91 98765 43210" required>
+                </div>
+                
+                <div>
+                    <label class="block text-white/40 text-xs sm:text-sm mb-1.5 sm:mb-2">Email</label>
+                    <input type="email" id="waEmail" class="form-input text-sm" placeholder="your@email.com">
+                </div>
+                
+                <div>
+                    <label class="block text-white/40 text-xs sm:text-sm mb-1.5 sm:mb-2">Service Interested In *</label>
+                    <select id="waService" class="form-input text-sm" required>
+                        <option value="" class="bg-om-dark">Select a service</option>
+                        <option value="Film Production" class="bg-om-dark">Film Production</option>
+                        <option value="Commercial" class="bg-om-dark">Commercial</option>
+                        <option value="Music Video" class="bg-om-dark">Music Video</option>
+                        <option value="Portfolio Building" class="bg-om-dark">Portfolio Building</option>
+                        <option value="Post Production" class="bg-om-dark">Post Production</option>
+                        <option value="Documentary" class="bg-om-dark">Documentary</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block text-white/40 text-xs sm:text-sm mb-1.5 sm:mb-2">Message</label>
+                    <textarea id="waMessage" rows="3" class="form-input resize-none text-sm" placeholder="Tell us about your project..."></textarea>
+                </div>
+                
+                <div class="bg-[#25D366]/10 border border-[#25D366]/20 rounded-lg p-3 sm:p-4 mb-2 sm:mb-4">
+                    <p class="text-xs sm:text-sm text-white/80 flex items-start gap-2">
+                        <i data-lucide="info" class="w-3 h-3 sm:w-4 sm:h-4 text-[#25D366] mt-0.5 flex-shrink-0"></i>
+                        Your information will be saved for our records before redirecting to WhatsApp.
+                    </p>
+                </div>
+                
+                <button type="submit" class="whatsapp-btn w-full py-3 sm:py-4 rounded-full font-medium flex items-center justify-center gap-2 text-base sm:text-lg">
+                    <i data-lucide="message-circle" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+                    Continue to WhatsApp
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Data Management
+        let portfolioWorks = JSON.parse(localStorage.getItem('omWorks')) || [
+            {
+                id: 1,
+                title: "The Silent Echo",
+                category: "film",
+                categoryLabel: "Feature Film",
+                image: "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=800&q=80",
+                description: "Cinematography & Production"
+            },
+            {
+                id: 2,
+                title: "Luxe Brand Campaign",
+                category: "commercial",
+                categoryLabel: "Commercial",
+                image: "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=800&q=80",
+                description: "Direction & Post-Production"
+            },
+            {
+                id: 3,
+                title: "Midnight Dreams",
+                category: "music",
+                categoryLabel: "Music Video",
+                image: "https://images.unsplash.com/photo-1536240478700-b869070f9279?w=800&q=80",
+                description: "Creative Direction"
+            },
+            {
+                id: 4,
+                title: "Voices Unheard",
+                category: "documentary",
+                categoryLabel: "Documentary",
+                image: "https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=800&q=80",
+                description: "Full Production"
+            }
+        ];
+
+        let clientData = JSON.parse(localStorage.getItem('omClients')) || [];
+
+        // Custom Cursor (desktop only)
+        const cursor = document.getElementById('cursor');
+        const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
+        
+        if (!isTouchDevice && cursor) {
+            const hoverElements = document.querySelectorAll('[data-cursor="hover"]');
+
+            document.addEventListener('mousemove', (e) => {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+            });
+
+            hoverElements.forEach(el => {
+                el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+                el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+            });
+        }
+
+        // Mobile Menu
+        const menuBtn = document.getElementById('menuBtn');
+        const closeMenu = document.getElementById('closeMenu');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.remove('translate-x-full');
+            document.body.classList.add('mobile-menu-open');
+        });
+
+        closeMenu.addEventListener('click', () => {
+            mobileMenu.classList.add('translate-x-full');
+            document.body.classList.remove('mobile-menu-open');
+        });
+
+        document.querySelectorAll('.mobile-link').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('translate-x-full');
+                document.body.classList.remove('mobile-menu-open');
+            });
+        });
+
+        // Render Works
+        function renderWorks(filter = 'all') {
+            const grid = document.getElementById('workGrid');
+            const filtered = filter === 'all' ? portfolioWorks : portfolioWorks.filter(w => w.category === filter);
+            
+            grid.innerHTML = filtered.map(work => `
+                <div class="work-card group relative overflow-hidden rounded-lg cursor-pointer" data-cursor="hover" data-category="${work.category}">
+                    <div class="aspect-[4/3] overflow-hidden bg-om-gray">
+                        <img src="${work.image}" 
+                             alt="${work.title}" 
+                             class="w-full h-full object-cover transition-transform duration-700"
+                             loading="lazy"
+                             onerror="this.src='https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=800&q=80'">
+                    </div>
+                    <div class="work-overlay absolute inset-0 bg-gradient-to-t from-om-black via-om-black/50 to-transparent opacity-0 sm:opacity-0 transition-opacity duration-500 flex flex-col justify-end p-4 sm:p-8">
+                        <span class="text-om-accent text-xs sm:text-sm uppercase tracking-widest mb-1 sm:mb-2">${work.categoryLabel}</span>
+                        <h3 class="text-lg sm:text-2xl font-display font-bold mb-1 sm:mb-2">${work.title}</h3>
+                        <p class="text-white/60 text-xs sm:text-sm">${work.description}</p>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Re-initialize hover effects for desktop
+            if (!isTouchDevice) {
+                document.querySelectorAll('.work-card').forEach(el => {
+                    el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+                    el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+                });
+            }
+        }
+
+        // Category Filters
+        document.querySelectorAll('.category-filter').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.category-filter').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                renderWorks(btn.dataset.filter);
+            });
+        });
+
+        // Admin Panel Functions
+        function toggleAdminPanel() {
+            const panel = document.getElementById('adminPanel');
+            panel.classList.toggle('open');
+            if (panel.classList.contains('open')) {
+                renderClientData();
+                renderManageWorks();
+            }
+        }
+
+        // Add Work Form
+        document.getElementById('addWorkForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const newWork = {
+                id: Date.now(),
+                title: document.getElementById('workTitle').value,
+                category: document.getElementById('workCategory').value,
+                categoryLabel: document.getElementById('workCategory').options[document.getElementById('workCategory').selectedIndex].text,
+                image: document.getElementById('workImage').value,
+                description: document.getElementById('workDesc').value
+            };
+            
+            portfolioWorks.unshift(newWork);
+            localStorage.setItem('omWorks', JSON.stringify(portfolioWorks));
+            
+            renderWorks();
+            renderManageWorks();
+            
+            e.target.reset();
+            showNotification('Work added successfully!', 'success');
+        });
+
+        // Render Client Data
+        function renderClientData() {
+            const list = document.getElementById('clientDataList');
+            const count = document.getElementById('clientCount');
+            
+            count.textContent = clientData.length;
+            
+            if (clientData.length === 0) {
+                list.innerHTML = '<p class="text-white/40 text-xs sm:text-sm text-center py-6 sm:py-8">No client data yet</p>';
+                return;
+            }
+            
+            list.innerHTML = clientData.map((client, index) => `
+                <div class="client-data-card">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="min-w-0 pr-2">
+                            <h4 class="font-bold text-white text-sm sm:text-base truncate">${client.name}</h4>
+                            <p class="text-om-accent text-xs sm:text-sm">${client.service}</p>
+                        </div>
+                        <button onclick="deleteClient(${index})" class="delete-btn p-1.5 sm:p-2 hover:bg-red-500/20 rounded text-red-400 transition-colors flex-shrink-0">
+                            <i data-lucide="trash-2" class="w-3.5 h-3.5 sm:w-4 sm:h-4"></i>
+                        </button>
+                    </div>
+                    <div class="text-white/60 text-xs sm:text-sm space-y-1">
+                        <p class="flex items-center gap-2">
+                            <i data-lucide="phone" class="w-3 h-3 flex-shrink-0"></i>
+                            <span class="truncate">${client.phone}</span>
+                        </p>
+                        <p class="flex items-center gap-2">
+                            <i data-lucide="mail" class="w-3 h-3 flex-shrink-0"></i>
+                            <span class="truncate">${client.email || 'N/A'}</span>
+                        </p>
+                        <p class="flex items-center gap-2">
+                            <i data-lucide="clock" class="w-3 h-3 flex-shrink-0"></i>
+                            ${new Date(client.date).toLocaleString()}
+                        </p>
+                    </div>
+                    ${client.message ? `<p class="mt-2 text-white/40 text-xs italic line-clamp-2">"${client.message}"</p>` : ''}
+                </div>
+            `).join('');
+            
+            lucide.createIcons();
+        }
+
+        // Render Manage Works
+        function renderManageWorks() {
+            const list = document.getElementById('manageWorksList');
+            list.innerHTML = portfolioWorks.map((work, index) => `
+                <div class="flex items-center gap-2 sm:gap-3 p-2 sm:p-3 bg-white/5 rounded-lg">
+                    <img src="${work.image}" class="w-10 h-10 sm:w-12 sm:h-12 object-cover rounded flex-shrink-0" loading="lazy" onerror="this.src='https://via.placeholder.com/48'">
+                    <div class="flex-1 min-w-0">
+                        <h4 class="font-bold text-xs sm:text-sm truncate">${work.title}</h4>
+                        <p class="text-om-accent text-xs">${work.categoryLabel}</p>
+                    </div>
+                    <button onclick="deleteWork(${index})" class="p-1.5 sm:p-2 hover:bg-red-500/20 rounded text-red-400 transition-colors flex-shrink-0">
+                        <i data-lucide="trash-2" class="w-3.5 h-3.5 sm:w-4 sm:h-4"></i>
+                    </button>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        // Delete Functions
+        function deleteClient(index) {
+            if (confirm('Delete this client record?')) {
+                clientData.splice(index, 1);
+                localStorage.setItem('omClients', JSON.stringify(clientData));
+                renderClientData();
+            }
+        }
+
+        function deleteWork(index) {
+            if (confirm('Delete this work from portfolio?')) {
+                portfolioWorks.splice(index, 1);
+                localStorage.setItem('omWorks', JSON.stringify(portfolioWorks));
+                renderWorks();
+                renderManageWorks();
+            }
+        }
+
+        // Export Client Data
+        function exportClientData() {
+            if (clientData.length === 0) {
+                showNotification('No data to export!', 'error');
+                return;
+            }
+            
+            const dataStr = JSON.stringify(clientData, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `om-clients-${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+            
+            showNotification('Client data exported!', 'success');
+        }
+
+        // WhatsApp Functions
+        function openWhatsAppModal() {
+            document.getElementById('whatsappModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeWhatsAppModal(event) {
+            if (!event || event.target.id === 'whatsappModal' || event.target.closest('button')) {
+                document.getElementById('whatsappModal').classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+
+        // WhatsApp Form Submit
+        document.getElementById('whatsappForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const clientInfo = {
+                name: document.getElementById('waName').value,
+                phone: document.getElementById('waPhone').value,
+                email: document.getElementById('waEmail').value,
+                service: document.getElementById('waService').value,
+                message: document.getElementById('waMessage').value,
+                source: 'WhatsApp',
+                date: new Date().toISOString()
+            };
+            
+            // Save to localStorage
+            clientData.unshift(clientInfo);
+            localStorage.setItem('omClients', JSON.stringify(clientData));
+            
+            // Build WhatsApp message
+            const text = `Hello Om Entertainment!%0A%0A*Name:* ${clientInfo.name}%0A*Phone:* ${clientInfo.phone}%0A*Email:* ${clientInfo.email || 'N/A'}%0A*Service:* ${clientInfo.service}%0A*Message:* ${clientInfo.message || 'Interested in your services'}`;
+            
+            // Open WhatsApp (replace with your number)
+            const phoneNumber = '919876543210'; // Replace with your actual WhatsApp number
+            const waUrl = `https://wa.me/${phoneNumber}?text=${text}`;
+            
+            window.open(waUrl, '_blank');
+            
+            closeWhatsAppModal();
+            e.target.reset();
+            showNotification('Redirecting to WhatsApp...', 'success');
+        });
+
+        // Contact Form Submit
+        document.getElementById('contactForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const clientInfo = {
+                name: document.getElementById('contactName').value,
+                email: document.getElementById('contactEmail').value,
+                phone: document.getElementById('contactPhone').value,
+                service: document.getElementById('contactService').value,
+                message: document.getElementById('contactMessage').value,
+                source: 'Website Form',
+                date: new Date().toISOString()
+            };
+            
+            clientData.unshift(clientInfo);
+            localStorage.setItem('omClients', JSON.stringify(clientData));
+            
+            showNotification('Message sent successfully! We will contact you soon.', 'success');
+            e.target.reset();
+        });
+
+        // Notification System
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            const bgColor = type === 'success' ? 'bg-om-accent' : 'bg-red-500';
+            const icon = type === 'success' ? 'check-circle' : 'alert-circle';
+            
+            notification.className = `fixed bottom-4 right-4 left-4 sm:left-auto sm:bottom-8 sm:right-8 ${bgColor} text-om-black px-4 sm:px-6 py-3 sm:py-4 rounded-lg shadow-2xl transform translate-y-20 opacity-0 transition-all duration-500 z-[10001] flex items-center gap-2 sm:gap-3`;
+            notification.innerHTML = `
+                <i data-lucide="${icon}" class="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0"></i>
+                <span class="font-medium text-sm sm:text-base">${message}</span>
+            `;
+            
+            document.body.appendChild(notification);
+            lucide.createIcons();
+            
+            setTimeout(() => {
+                notification.classList.remove('translate-y-20', 'opacity-0');
+            }, 100);
+            
+            setTimeout(() => {
+                notification.classList.add('translate-y-20', 'opacity-0');
+                setTimeout(() => notification.remove(), 500);
+            }, 3000);
+        }
+
+        // Magnetic Buttons (desktop only)
+        if (!isTouchDevice) {
+            const magneticBtns = document.querySelectorAll('.magnetic-btn');
+            
+            magneticBtns.forEach(btn => {
+                btn.addEventListener('mousemove', (e) => {
+                    const rect = btn.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2;
+                    const y = e.clientY - rect.top - rect.height / 2;
+                    
+                    btn.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
+                });
+                
+                btn.addEventListener('mouseleave', () => {
+                    btn.style.transform = 'translate(0, 0)';
+                });
+            });
+        }
+
+        // Intersection Observer
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    if (entry.target.classList.contains('counter')) {
+                        animateCounter(entry.target);
+                    }
+                    if (entry.target.classList.contains('line-reveal')) {
+                        entry.target.classList.add('active');
+                    }
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.line-reveal').forEach(el => observer.observe(el));
+        document.querySelectorAll('.counter').forEach(el => observer.observe(el));
+
+        function animateCounter(el) {
+            const target = parseInt(el.getAttribute('data-target'));
+            const duration = 2000;
+            const step = target / (duration / 16);
+            let current = 0;
+            
+            const timer = setInterval(() => {
+                current += step;
+                if (current >= target) {
+                    el.textContent = target + '+';
+                    clearInterval(timer);
+                } else {
+                    el.textContent = Math.floor(current);
+                }
+            }, 16);
+        }
+
+        // Header Scroll Effect
+        const nav = document.getElementById('navbar');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 100) {
+                nav.classList.add('bg-om-black/80', 'backdrop-blur-md');
+                nav.classList.remove('mix-blend-difference');
+            } else {
+                nav.classList.remove('bg-om-black/80', 'backdrop-blur-md');
+                nav.classList.add('mix-blend-difference');
+            }
+        });
+
+        // Handle resize
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                // Close mobile menu on resize to desktop
+                if (window.innerWidth >= 768) {
+                    mobileMenu.classList.add('translate-x-full');
+                    document.body.classList.remove('mobile-menu-open');
+                }
+            }, 250);
+        });
+
+        // Initialize
+        renderWorks();
+    </script>
+</body>
+</html>
